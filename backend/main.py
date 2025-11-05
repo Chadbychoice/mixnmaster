@@ -16,14 +16,10 @@ import yt_dlp
 app = FastAPI(title="MatchMaster API", version="1.0.0")
 
 # CORS middleware
+# Allow all origins for Render deployment (you can restrict this in production)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://frontend:3000",
-        "http://127.0.0.1:3000",
-        "https://*.onrender.com",  # Allow Render frontend domains
-    ],
+    allow_origins=["*"],  # Allow all origins for Render deployment
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
