@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: mixnmaster-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: UPLOAD_DIR
+        value: /opt/render/project/src/uploads
+      - key: OUTPUT_DIR
+        value: /opt/render/project/src/outputs
+      - key: PORT
+        value: 10000
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
+    disk:
+      name: outputs
+      mountPath: /opt/render/project/src/outputs
+      sizeGB: 1
+
+  - type: web
+    name: mixnmaster-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false
+        # Set this to your backend URL after deployment
+        # Example: https://mixnmaster-backend.onrender.com
+
